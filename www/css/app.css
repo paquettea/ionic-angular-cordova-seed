@@ -1,8 +1,12 @@
-/* Your app's CSS, go crazy, make it your own */
-
-.ionic-logo {
-  display: block;
-  margin: 15px auto;
-  width: 96px;
-  height: 96px;
+@import "../fonts/lcd-bold.css";
+.period-countdown {
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  font-size: 25vw;
+  line-height: 1em;
+  font-family: 'lcdbold';
+}
+.dark {
+  background-color: #000;
 }

@@ -1,0 +1,46 @@
+<!--
+  This template loads for the 'tab.about' state (app.js)
+-->
+<ion-view title="'New Game'">
+   <ion-content has-header="true" has-tabs="true" padding="true">
+
+      <h1>Create a new game</h1>
+      <div class="list">
+         <div class="item item-divider">
+            Number of period : {{ gameParams.periods.quantity }}
+         </div>
+         <div class="item range range-positive">
+            <i ng-click="gameParams.periods.quantity = decreaseStep(gameParams.periods.quantity,1)" class="icon ion-minus"></i>
+            <input ng-model="gameParams.periods.quantity" type="range" name="quantity" min="1" max="10" value="{{ gameParams.periods.quantity }}" >
+            <i ng-click="gameParams.periods.quantity = increaseStep(gameParams.periods.quantity,1)" class="icon ion-plus"></i>
+         </div>
+         <div class="item item-divider">
+            Period length : {{gameParams.periods.length | secondsFormat}}
+         </div>
+         <div class="item range range-positive">
+            <i ng-click="gameParams.periods.length = decreaseStep(gameParams.periods.length,300)" class="icon ion-minus"></i>
+            <input ng-model="gameParams.periods.length" type="range" name="length" min="1" max="3600" value="{{ gameParams.periods.length }}">
+            <i ng-click="gameParams.periods.length = increaseStep(gameParams.periods.length,300)" class="icon ion-plus"></i>
+         </div>
+
+         <div class="item item-divider">
+            Interval between periods : {{gameParams.periods.interval | secondsFormat }}
+         </div>
+         <label class="item range range-positive">
+            <i ng-click="gameParams.periods.interval = decreaseStep(gameParams.periods.interval,300)" class="icon ion-minus"></i>
+            <input ng-model="gameParams.periods.interval" type="range" name="interval" min="1" max="1800" value="{{ gameParams.periods.interval }}">
+            <i ng-click="gameParams.periods.interval = increaseStep(gameParams.periods.interval,300)" class="icon ion-plus"></i>
+         </label>
+
+         <div class="item item-checkbox">
+            <label class="checkbox">
+               <input type="checkbox" ng-model="gameParams.continuousCountdown" ng-checked="gameParams.continuousCountdown" />
+            </label>
+            Continuous countdown ?
+         </div>
+         <small class="block">When countdown is done, switch automatically to interval and next periods</small>
+         <button ng-click="createGame()" class="button button-positive button-full">Create</button>
+      </div>
+
+   </ion-content>
+</ion-view>

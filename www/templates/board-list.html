@@ -1,0 +1,18 @@
+
+<ion-view title="'Scoreboards'">
+   <ion-content has-header="true" has-tabs="true" padding="true">
+      <ion-list>
+
+         <div class="list">
+
+            <a ng-repeat="game in games" ui-sref="scoreboard.board({gameId:game.gameId})" class="item item-thumbnail-left">
+               <h2>{{ game.period.length }}</h2>
+               <h4>{{ game.sport }}</h4>
+               <small>{{ game.createdAt | date }}</small>
+            </a>
+
+         </div>
+
+      </ion-list>
+   </ion-content>
+</ion-view>

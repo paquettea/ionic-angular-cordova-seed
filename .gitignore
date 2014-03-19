@@ -1,3 +1,11 @@
 *.keystore
 *.sw*
 platforms/^.*
+
+#No bower components committed, but containing folder itself is kept for clarity
+www/lib/components/*
+!www/lib/components/.keep
+
+#all root files (js build destination)
+www/js/*
+!www/js/app
