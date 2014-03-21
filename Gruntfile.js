@@ -1,6 +1,25 @@
 module.exports = function(grunt) {
    grunt.initConfig({
       pkg: grunt.file.readJSON('package.json'),
+
+      copy:{
+         css:{
+            flatten: false,
+            expand:true,
+            cwd: 'src/lib/css/',
+            src: [
+               'ionic.min.css'],
+            dest: 'www/css/'
+         },
+         font:{
+            flatten: false,
+            expand:true,
+            cwd: 'src/lib/fonts/',
+            src: [
+               '**'],
+            dest: 'www/fonts/'
+         }
+      },
       concat:{
          vendorCss:{
             //todo update this when vendors are selected for more specific file list
@@ -9,28 +28,28 @@ module.exports = function(grunt) {
          },
          vendorJs:{
             src: [
-               //'www/lib/components/angular/angular.min.js',
-               'www/lib/js/ionic.bundle.js',
-               //'www/lib/js/ionic-angular.min.js',
-               //'www/lib/components/angular-ui-router/release/angular-ui-router.min.js',
-               'www/lib/components/angular-keepit/dist/KeepIt.min.js',
-               'www/lib/components/angular-keepit/dist/KeepItLocalStorageService.min.js',
-               'www/lib/components/momentjs/min/moment.min.js'],
+               //'src/lib/components/angular/angular.min.js',
+               'src/lib/js/ionic.bundle.js',
+               //'src/lib/js/ionic-angular.min.js',
+               //'src/lib/components/angular-ui-router/release/angular-ui-router.min.js',
+               'src/lib/components/angular-keepit/dist/KeepIt.min.js',
+               'src/lib/components/angular-keepit/dist/KeepItLocalStorageService.min.js',
+               'src/lib/components/momentjs/min/moment.min.js'],
             dest: 'www/js/vendors.js'
          }
       },
       ngmin :{
          dist:{
             src: [
-               'www/js/app/modules.js',
-               'www/js/app/run.js',
-               'www/js/app/config/**/*.js',
-               'www/js/app/common/**/*.js',
-               'www/js/app/sports/**/*.js',
-               'www/js/app/api/**/*.js',
-               'www/js/app/controllers/**.js'
+               'src/js/app/modules.js',
+               'src/js/app/run.js',
+               'src/js/app/config/**/*.js',
+               'src/js/app/common/**/*.js',
+               'src/js/app/sports/**/*.js',
+               'src/js/app/api/**/*.js',
+               'src/js/app/controllers/**.js'
             ],
-            dest: 'www/js/app.ngmin.js'
+            dest: '_tmp/js/app.ngmin.js'
          }
       },
       uglify: {
@@ -39,14 +58,14 @@ module.exports = function(grunt) {
          },
          my_target: {
             files: {
-               'www/js/app.min.js': ['www/js/app.ngmin.js']
+               'www/js/app.min.js': ['_tmp/js/app.ngmin.js']
             }
          }
       },
       less: {
          development: {
             files: {
-               "www/css/app.css": "www/less/styles.less"
+               "www/css/app.css": "src/less/styles.less"
             }
          },
          production: {
@@ -60,7 +79,7 @@ module.exports = function(grunt) {
       },
       watch: {
          dev : {
-            files: ["www/js/app/**","www/less/**"],
+            files: ["src/js/app/**","www/templates/**"],
             tasks: ['default'],
             options: {
                spawn: false
@@ -69,13 +88,13 @@ module.exports = function(grunt) {
       }
 
    });
-
    grunt.loadNpmTasks('grunt-contrib-uglify');
    grunt.loadNpmTasks('grunt-contrib-less');
    grunt.loadNpmTasks('grunt-contrib-watch');
    grunt.loadNpmTasks("grunt-ngmin");
    grunt.loadNpmTasks('grunt-contrib-concat');
+   grunt.loadNpmTasks('grunt-contrib-copy');
 
-   grunt.registerTask('default', [ 'ngmin','concat','less:development','uglify','watch:dev']);
-   grunt.registerTask('prod', ['ngmin','concat','less:production','uglify']);
+   grunt.registerTask('default', [ 'ngmin','concat','copy','less:development','uglify','watch:dev']);
+   grunt.registerTask('prod', ['ngmin','concat','copy','less:production','uglify']);
 };
