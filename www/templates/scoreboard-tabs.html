@@ -4,23 +4,35 @@
   Each tab's child <ion-nav-view> directive will have its own 
   navigation history that also transitions its views in and out.
 -->
-<ion-tabs tabs-style="tabs-icon-top" tabs-type="tabs-default">
+<ion-tabs tabs-style="tabs-icon-top" tabs-type="tabs-default" ng-controller="TabsCtrl">
 
 
    <!-- Pets Tab -->
    <ion-tab title="new game" icon="icon ion-plus" href="#/scoreboard/new-game">
+      <ion-nav-bar
+         type="bar-positive"
+         animation="nav-title-slide-ios7"
+         back-button-type="button-icon button-clear"
+         back-button-icon="ion-ios7-arrow-back"></ion-nav-bar>
       <ion-nav-view name="new-game-tab"></ion-nav-view>
    </ion-tab>
 
 
    <!-- Adopt Tab -->
-   <ion-tab title="Games" icon="icon ion-checkmark" href="#/tab/adopt">
+   <ion-tab title="Games" icon="icon ion-checkmark" >
+
       <ion-nav-view name="game-tab"></ion-nav-view>
+
    </ion-tab>
 
 
    <!-- About Tab -->
    <ion-tab title="About" icon="icon ion-search" href="#/tab/about">
+      <ion-nav-bar
+         type="bar-positive"
+         animation="nav-title-slide-ios7"
+         back-button-type="button-icon button-clear"
+         back-button-icon="ion-ios7-arrow-back"></ion-nav-bar>
       <ion-nav-view name="about-tab"></ion-nav-view>
    </ion-tab>
 

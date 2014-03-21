@@ -9,4 +9,5 @@ angular.module("scoreboard").controller('BoardCtrl',
 
       $scope.game = API.getGame($stateParams.gameId);
       $log.log($scope.game);
+      $scope.isFullscreen = true;
    });

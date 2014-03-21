@@ -1,3 +1,4 @@
 <div class="count-down-inner" ng-click="toggleState()">
-   {{ remainingTime | secondsFormat }}
+   {{ remainingTime | splitSecondsFormat }}
+   <div ng-transclude></div>
 </div>

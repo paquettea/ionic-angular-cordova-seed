@@ -10,3 +10,13 @@
 .dark {
   background-color: #000;
 }
+.period-countdown.stopped {
+  color: #808080;
+  text-decoration: blink;
+}
+.period-countdown.running {
+  color: #fff;
+}
+.period-countdown.ended {
+  color: darkred;
+}

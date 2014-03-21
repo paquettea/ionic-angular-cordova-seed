@@ -31,6 +31,7 @@ angular.module('scoreboard')
          })
          .state('scoreboard.board', {
             url: '/board/:gameId',
+            autoHideTabs :true,
             views: {
                'game-tab': {
                   templateUrl: 'templates/board.html',
