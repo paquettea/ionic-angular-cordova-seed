@@ -29,7 +29,7 @@ module.exports = function(grunt) {
          vendorJs:{
             src: [
                //'src/lib/components/angular/angular.min.js',
-               'src/lib/js/ionic.bundle.js',
+               'src/lib/js/ionic.bundle.min.js',
                //'src/lib/js/ionic-angular.min.js',
                //'src/lib/components/angular-ui-router/release/angular-ui-router.min.js',
                'src/lib/components/angular-keepit/dist/KeepIt.min.js',
@@ -54,7 +54,9 @@ module.exports = function(grunt) {
       },
       uglify: {
          options: {
-            mangle: false
+            mangle: false,
+            sourceMap : true,
+            beautify: true
          },
          my_target: {
             files: {
@@ -79,7 +81,7 @@ module.exports = function(grunt) {
       },
       watch: {
          dev : {
-            files: ["src/js/app/**","www/templates/**"],
+            files: ["src/js/app/**","src/less/**","www/templates/**"],
             tasks: ['default'],
             options: {
                spawn: false

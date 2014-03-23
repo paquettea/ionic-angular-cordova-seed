@@ -10,7 +10,17 @@ angular.module("scoreboard").factory("Sports",function(){
                   length : 60 * 20,
                   interval : 60 * 5
                },
-               continuousCountdown: true
+               continuousCountdown: true,
+               teams:[
+                  {
+                     name: "Home",
+                     score : 0
+                  },
+                  {
+                     name: "Away",
+                     score: 0
+                  }
+               ]
             }
          }
       }

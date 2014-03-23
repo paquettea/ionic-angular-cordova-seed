@@ -3,7 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>Ionic Seed App</title>
+    <title>Scoreboard</title>
+
+     <script src="js/vendors.js"></script>
+     <!-- cordova script (this will be a 404 during development)ci -->
+     <script src="cordova.js"></script>
+
+     <script>
+        if (typeof cordova === "undefined"){
+           cordova = null;
+        }
+     </script>
+     <!-- your app's script -->
+
+     <script src="js/app.min.js"></script>
 
     <!-- ionic css -->
     <link href="css/ionic.min.css" rel="stylesheet">
@@ -32,13 +45,7 @@
     -->
     <ion-nav-view></ion-nav-view>
 
-    <script src="js/vendors.js"></script>
-    <!-- cordova script (this will be a 404 during development)ci -->
-    <script src="cordova.js"></script>
 
-    <!-- your app's script -->
-
-    <script src="js/app.min.js"></script>
 
   </body>
 </html>

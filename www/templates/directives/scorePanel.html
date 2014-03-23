@@ -1,0 +1,13 @@
+<div class="score-panel-inner">
+   <div class="team">{{ teamName }}</div>
+   <div class="score-wrapper">
+      <button ng-click="increase()" class="button button-block  plus button-translucent text-right">
+         <!--<i class="icon ion-plus-circled"></i>-->
+      </button>
+      <span class="score">{{score}}</span>
+      <button  ng-disabled="score == 0" ng-click="decrease()" class="button button-block minus button-translucent text-right">
+         <!--<i class="icon ion-minus-circled"></i>-->
+      </button>
+   </div>
+
+</div>

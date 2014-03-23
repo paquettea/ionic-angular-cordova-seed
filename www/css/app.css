@@ -3,9 +3,68 @@
   color: #fff;
   text-align: center;
   width: 100%;
-  font-size: 25vw;
+  font-size: 30vmin;
   line-height: 1em;
   font-family: 'lcdbold';
+}
+.scores .score-panel {
+  float: left;
+  width: 50%;
+  box-sizing: border-box;
+}
+.scores .score-panel:last-child {
+  border-left: 4px solid #1C1C1D;
+}
+@media screen and (orientation: portrait) {
+  .scores .score-panel {
+    float: none;
+    width: auto;
+  }
+  .scores .team {
+    float: left;
+  }
+  .scores .score-panel-inner .score {
+    font-size: 40vh;
+  }
+}
+.score-panel-inner {
+  color: #fff;
+  font-family: 'lcdbold';
+  text-align: center;
+}
+.score-panel-inner .score-wrapper {
+  position: relative;
+}
+.score-panel-inner .team {
+  font-size: 10vmin;
+  line-height: 1em;
+}
+.score-panel-inner .score {
+  width: 100%;
+  font-size: 30vw;
+  line-height: 1em;
+}
+.score-panel-inner .button {
+  position: absolute;
+  left: 0;
+  padding: 0;
+  margin: 0;
+}
+.score-panel-inner .button.plus {
+  top: 0;
+  height: 50%;
+}
+.score-panel-inner .button.minus {
+  bottom: 0;
+  height: 50%;
+}
+.score-panel-inner .button .icon {
+  color: lime;
+}
+.button.button-translucent {
+  opacity: 0.5;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 0;
 }
 .dark {
   background-color: #000;
@@ -19,4 +78,8 @@
 }
 .period-countdown.ended {
   color: darkred;
+}
+.button-cancel-sfx {
+  font-size: 3em;
+  position: absolute;
 }

@@ -11,11 +11,6 @@ angular.module("scoreboard.common").directive("countDown",function(){
          var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-
-
-
-
-
          var timer = null;
 
          $scope.reset = reset;
@@ -26,13 +21,13 @@ angular.module("scoreboard.common").directive("countDown",function(){
                reset();
             }
 
-
-            var countDown = $scope.from * 10;
-            var start = null;
+            var countDown,
+               start = null,
+               countDownInitialValue = $scope.remainingTime;
 
             function step(timestamp) {
                if (start === null) start = timestamp;
-               countDown = $scope.from * 10 - (timestamp - start) / 100;
+               countDown = countDownInitialValue - (timestamp - start) / 100;
 
                if (countDown > 0 ){
                   requestAnimationFrame(step);
@@ -51,6 +46,7 @@ angular.module("scoreboard.common").directive("countDown",function(){
             },100);
 
             $element.addClass("running").removeClass("stopped");
+            $scope.$emit("countdown.start");
          }
 
 
@@ -63,11 +59,13 @@ angular.module("scoreboard.common").directive("countDown",function(){
          function end(){
             stop();
             $element.removeClass("running stopped").addClass("ended");
+            $scope.$emit("countdown.end");
          }
 
          function reset(){
             $scope.remainingTime = $scope.from * 10;
             $element.removeClass("ended");
+            $scope.$emit("countdown.reset");
          }
 
          $scope.toggleState = function(){

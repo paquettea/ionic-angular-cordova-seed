@@ -3,9 +3,79 @@
 	color:#fff;
 	text-align:center;
 	width:100%;
-	font-size:25vw;
+	font-size:30vmin;
 	line-height:1em;
 	font-family: 'lcdbold';
+}
+.scores{
+	.score-panel{
+		float:left;
+		width:50%;
+		box-sizing:border-box;
+		&:last-child{
+			border-left: 4px solid #1C1C1D;
+		}
+	}
+	@media screen and (orientation:portrait) {
+		.score-panel{
+			float:none;
+			width:auto;
+		}
+		.team{
+			float:left;
+		}
+		.score-panel-inner  .score{
+			font-size:40vh;
+		}
+	}
+}
+.score-panel-inner{
+
+	color:#fff;
+	font-family: 'lcdbold';
+	text-align:center;
+	.score-wrapper{
+		position: relative;
+	}
+	.team{
+		font-size:10vmin;
+		line-height:1em;
+	}
+	.score{
+		width:100%;
+		font-size:30vw;
+		line-height:1em;
+		line-height:1em;
+
+
+	}
+
+	.button{
+		position:absolute;
+		left:0;
+		padding:0;
+		margin:0;
+		&.plus{
+			top:0;
+			height:50%;
+		}
+		&.minus{
+			bottom:0;
+			height:50%;
+		}
+		.icon{
+			color:lime;
+		}
+	}
+}
+
+
+
+
+.button.button-translucent{
+	opacity: 0.5;
+	background-color:rgba(0,0,0,0.1);
+	border:0;
 }
 .dark{
 	background-color: #000;
@@ -23,4 +93,8 @@
 	&.ended{
 		color:darkred;
 	}
+}
+.button-cancel-sfx{
+	font-size:3em;
+	position: absolute;
 }
