@@ -9,9 +9,9 @@ angular.module("scoreboard.common").directive("audioSfx",function (AudioSFX){
          });
          scope.$on(AudioSFX.EVENTS.END,function(){
             scope.isPLaying = false;
-         })
+         });
 
-         scope.cancel = AudioSFX.cancel;
+         scope.cancel = AudioSFX.stop;
       }
    }
 });

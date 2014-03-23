@@ -6,15 +6,16 @@ angular.module("scoreboard").controller('BoardCtrl',
       $state,
       $scope,
       API,
+      EnvironmentDetection,
       Sports){
 
 
 
-      if (cordova !== null){
+      if (EnvironmentDetection.isMobileApp()){
          window.plugins.insomnia.keepAwake(function(){}, function(){alert('Something went wrong while trying to disable sleep mode.')})
       }
       $scope.$on("$destroy",function(){
-         if (cordova !== null){
+         if (EnvironmentDetection.isMobileApp()){
             window.plugins.insomnia.allowSleepAgain(function(){}, function(){alert('Something went wrong while trying to re-enable sleep mode.')})
          }
       });

@@ -1,5 +1,5 @@
 angular.module('scoreboard')
-   .config(function ($stateProvider, $urlRouterProvider) {
+   .config(function ($stateProvider, $urlRouterProvider,EnvironmentDetection,AudioSFXProvider) {
 
       $stateProvider
 
@@ -91,5 +91,10 @@ angular.module('scoreboard')
       // if none of the above states are matched, use this as the fallback
       $urlRouterProvider.otherwise('/scoreboard/new-game');
 
+      if (EnvironmentDetection.isMobileApp()){
+         AudioSFXProvider.setInterface("CordovaMedia");
+      }else{
+         AudioSFXProvider.setInterface("HTML5Audio");
+      }
    });
 
