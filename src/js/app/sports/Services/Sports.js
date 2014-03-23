@@ -14,10 +14,12 @@ angular.module("scoreboard").factory("Sports",function(){
                teams:[
                   {
                      name: "Home",
+                     color:"#ffffff",
                      score : 0
                   },
                   {
                      name: "Away",
+                     color:"#ffffff",
                      score: 0
                   }
                ]

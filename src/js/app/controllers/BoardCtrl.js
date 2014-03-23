@@ -11,9 +11,7 @@ angular.module("scoreboard").controller('BoardCtrl',
 
 
       if (cordova !== null){
-         alert("?");
          window.plugins.insomnia.keepAwake(function(){}, function(){alert('Something went wrong while trying to disable sleep mode.')})
-         alert("ok");
       }
       $scope.$on("$destroy",function(){
          if (cordova !== null){

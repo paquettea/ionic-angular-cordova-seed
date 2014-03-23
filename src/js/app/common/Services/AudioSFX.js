@@ -1,21 +1,27 @@
 angular.module("scoreboard.common").factory("AudioSFX",function($rootScope){
 
-   var AudioSFX;
+   var AudioSFX,
       player = document.createElement("audio"),
       playing = null,
+      prefixPath = "",
       lastPlayedScore = null,
       SFX ={
          END_OF_PERIOD : "end-of-period/end-of-period.mp3",
          SCORE : "score/Hockey NHL - Home Goal Air Horn.mp3"
       };
 
+
+   if (cordova !== null){
+      prefixPath = "/android_asset/www/";
+   }
    //player.style.display("none");
    player.onended = function(){
       AudioSFX.cancel();
       $rootScope.$apply();
    };
    function play (file,sport){
-      player.src = "audio/" + sport + "/" + file;
+
+      player.src = prefixPath + "audio/" + sport + "/" + file;
       playing = file;
       player.play();
       $rootScope.$broadcast(AudioSFX.EVENTS.START);

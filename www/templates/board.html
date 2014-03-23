@@ -6,7 +6,7 @@
       </count-down>
       <div class="scores" id="scores">
          <div ng-repeat="team in game.teams" class="score-panel">
-            <score-panel team-name="team.name" score="team.score"></score-panel>
+            <score-panel team-name="team.name" score="team.score" style="color:{{ team.color }}"></score-panel>
          </div>
       </div>
    </ion-content>

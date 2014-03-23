@@ -3,7 +3,8 @@
   color: #fff;
   text-align: center;
   width: 100%;
-  font-size: 30vmin;
+  font-size: 40vmin;
+  white-space: nowrap;
   line-height: 1em;
   font-family: 'lcdbold';
 }
@@ -21,14 +22,13 @@
     width: auto;
   }
   .scores .team {
-    float: left;
+    position: absolute;
   }
   .scores .score-panel-inner .score {
-    font-size: 40vh;
+    font-size: 38vh;
   }
 }
 .score-panel-inner {
-  color: #fff;
   font-family: 'lcdbold';
   text-align: center;
 }
@@ -36,12 +36,12 @@
   position: relative;
 }
 .score-panel-inner .team {
-  font-size: 10vmin;
+  font-size: 7vmin;
   line-height: 1em;
 }
 .score-panel-inner .score {
   width: 100%;
-  font-size: 30vw;
+  font-size: 20vw;
   line-height: 1em;
 }
 .score-panel-inner .button {
