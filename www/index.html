@@ -9,11 +9,6 @@
      <!-- cordova script (this will be a 404 during development)ci -->
      <script src="cordova.js"></script>
 
-     <script>
-        if (typeof cordova === "undefined"){
-           cordova = null;
-        }
-     </script>
      <!-- your app's script -->
 
      <script src="js/app.min.js"></script>
@@ -29,7 +24,7 @@
   <!-- 
     'starter' is the name of this angular module (js/app.js)
   -->
-  <body ng-app="scoreboard" animation="slide-left-right-ios7">
+  <body animation="slide-left-right-ios7">
 
     <!-- 
       The nav bar that will be updated as we navigate between views
@@ -46,6 +41,29 @@
     <ion-nav-view></ion-nav-view>
 
 
+<script>
+   (function (window, document) {
 
+      function onWindowLoad() {
+         if (!(!window.cordova && !window.PhoneGap && !window.phonegap)) {
+            // on device add ready listener
+            document.addEventListener('deviceready', onDeviceReady, false);
+         } else {
+            // on browser trigger onDeviceReady
+            onDeviceReady();
+         }
+         window.removeEventListener('load', onWindowLoad, false);
+      }
+      window.addEventListener('load', onWindowLoad, false);
+
+      function onDeviceReady() {
+         // bootstrap app
+         angular.element(document).ready(function () {
+            angular.bootstrap(document.body, ['scoreboard']);
+         });
+         document.removeEventListener('deviceready', onDeviceReady, false);
+      }
+   })(window, document);
+</script>
   </body>
 </html>

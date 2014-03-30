@@ -4,7 +4,6 @@ angular.module("scoreboard.common").factory("HTML5Audio",function($rootScope,Aud
 
    player.onended = function(){
       HTML5Audio.stop();
-      $rootScope.$apply();
    };
 
    return HTML5Audio = {
@@ -19,9 +18,13 @@ angular.module("scoreboard.common").factory("HTML5Audio",function($rootScope,Aud
       stop:function(){
          player.pause();
          $rootScope.$broadcast(AudioSFXEvents.END);
+         $rootScope.$apply();
       },
       mute:function(){
 
+      },
+      setVolume:function(vol){
+         return "NOT IMPLEMENTED"
       }
    }
 });

@@ -10,7 +10,7 @@ angular.module("scoreboard.common").provider("AudioSFX",function(AudioSFXEvents)
       setInterface:function(interfaceName){
         AudioSFXProvider._interfaceName = interfaceName
       },
-      $get:function($rootScope,$injector){
+      $get:function($rootScope,$injector,EnvironmentDetection){
          var AudioSFX,
             player = null,
             playing = null,
@@ -24,9 +24,11 @@ angular.module("scoreboard.common").provider("AudioSFX",function(AudioSFXEvents)
 
          $injector.invoke([AudioSFXProvider._interfaceName,function(audioInterface){
             AudioSFXProvider.interface = audioInterface;
-         }])
+         }]);
 
-         if (cordova !== null){
+         window.EnvironmentDetection = EnvironmentDetection;
+
+         if (EnvironmentDetection.isMobileApp()){
             prefixPath = "/android_asset/www/";
          }
          //player.style.display("none");
@@ -35,6 +37,7 @@ angular.module("scoreboard.common").provider("AudioSFX",function(AudioSFXEvents)
          function play (file,sport){
             playing = file;
             AudioSFXProvider.interface.play(prefixPath + "audio/" + sport + "/" + file);
+            console.log(prefixPath + "audio/" + sport + "/" + file);
             $rootScope.$broadcast(AudioSFX.EVENTS.START);
          }
 
