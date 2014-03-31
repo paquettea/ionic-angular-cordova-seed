@@ -10,29 +10,84 @@ angular.module("scoreboard").controller('BoardCtrl',
       Sports){
 
 
-
-      if (EnvironmentDetection.isMobileApp()){
-         window.plugins.insomnia.keepAwake(function(){}, function(){alert('Something went wrong while trying to disable sleep mode.')})
+      function bindSoundEvents(){
+         $scope.$on("score.change",function(event,element,previousScore, score){
+            if (previousScore < score){
+               AudioSFX.score($scope.game);
+            }
+         });
+         $scope.$on("countdown.end",function(event,element,score){
+            AudioSFX.endOfPeriod($scope.game);
+         });
       }
-      $scope.$on("$destroy",function(){
+      function keepAwake(){
          if (EnvironmentDetection.isMobileApp()){
-            window.plugins.insomnia.allowSleepAgain(function(){}, function(){alert('Something went wrong while trying to re-enable sleep mode.')})
+            window.plugins.insomnia.keepAwake(function(){}, function(){alert('Something went wrong while trying to disable sleep mode.')})
          }
-      });
-      var scores = document.getElementById("scores");
+         $scope.$on("$destroy",function(){
+            AudioSFX.stop();
+            if (EnvironmentDetection.isMobileApp()){
+               window.plugins.insomnia.allowSleepAgain(function(){}, function(){alert('Something went wrong while trying to re-enable sleep mode.')})
+            }
+         });
+      }
 
-      $scope.$on("score.change",function(event,element,previousScore, score){
-         if (previousScore < score){
-            AudioSFX.score($scope.game);
+      function nextState(currentState,currentPeriod){
+         $log.log("period is ", currentPeriod,currentState);
+         if (currentState === Sports[game.sport].STATES.PERIOD){
+            if (currentPeriod == game.periods.quantity){
+               return Sports[game.sport].STATES.END;
+            }else{
+               return  Sports[game.sport].STATES.INTERVAL;
+
+            }
+
+         }else if( currentState === Sports[game.sport].STATES.INTERVAL){
+
+            return  Sports[game.sport].STATES.PERIOD;
+         }else if (currentState === Sports[game.sport].STATES.END){
+            //there should not be a state after the game is ended
          }
-      });
+      }
+      function handlePeriodChange(){
 
-      $scope.$on("countdown.end",function(event,element,score){
-         AudioSFX.endOfPeriod($scope.game);
-      });
+         $scope.$on("countdown.end",function(event,element,score){
+            $scope.countdownAutostart = false;
+            $scope.state = nextState($scope.state,$scope.currentPeriod);
+            switch($scope.state){
+               case Sports[game.sport].STATES.PERIOD:
+                  $scope.currentPeriod++;
+                  $scope.countdownValue = game.periods.length;
+                  break;
+               case Sports[game.sport].STATES.INTERVAL:
+                  $scope.countdownValue = game.periods.interval;
+                  break;
 
-      $scope.game = API.getGame($stateParams.gameId);
-      $log.log($scope.game);
+               case Sports[game.sport].STATES.END:
+                  $scope.hideCountdown = true;
+                  AudioSFX.endOfGame(game);
+
+                  break;
+            }
+            $scope.countdownAutostart = game.continuousCountdown;
+         });
 
 
+      }
+
+      keepAwake();
+      bindSoundEvents();
+      handlePeriodChange();
+
+      var game = $scope.game = API.getGame($stateParams.gameId);
+
+      $scope.currentPeriod = 1;
+      $scope.state = Sports[game.sport].STATES.PERIOD,
+
+      $scope.countdownValue = game.periods.length;
+      $scope.countdownAutostart = false;
+
+      $scope.backToList= function(){
+         $state.go("scoreboard.list");
+      }
    });

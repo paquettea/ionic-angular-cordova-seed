@@ -2,11 +2,12 @@ angular.module("scoreboard.common").directive("countDown",function(){
    return{
       restrict:'AE',
       scope:{
-         from : "="
+         from : "=",
+         autostart: "="
       },
       transclude: true,
       templateUrl : "templates/directives/countDown.html",
-      controller: function ($scope,$interval,$element){
+      controller: function ($scope,$interval,$element,$log){
 
          var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
@@ -15,6 +16,16 @@ angular.module("scoreboard.common").directive("countDown",function(){
 
          $scope.reset = reset;
          reset();
+         stop();
+
+         $scope.$watch("from",function(value){
+            console.log("--------------changed ", value);
+            if($scope.autostart === true){
+               reset();
+               start();
+            }
+         });
+
 
          function start(){
             if ($scope.remainingTime <= 0){
@@ -64,6 +75,7 @@ angular.module("scoreboard.common").directive("countDown",function(){
 
          function reset(){
             $scope.remainingTime = $scope.from * 10;
+            $log.log("reset to ", $scope.remainingTime)
             $element.removeClass("ended");
             $scope.$emit("countdown.reset");
          }
@@ -77,8 +89,6 @@ angular.module("scoreboard.common").directive("countDown",function(){
             }
 
          }
-
-         stop();
 
       },
       link : function (scope){

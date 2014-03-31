@@ -29,7 +29,7 @@
             <i ng-click="gameParams.periods.quantity = increaseStep(gameParams.periods.quantity,1)" class="icon ion-plus"></i>
          </div>
          <div class="item item-divider">
-            Period length : {{gameParams.periods.length | secondsFormat}}
+            Period length : <input type="text" class="inline" number-to-time ng-model="gameParams.periods.length"  />
          </div>
          <div class="item range range-positive">
             <i ng-click="gameParams.periods.length = decreaseStep(gameParams.periods.length,300)" class="icon ion-minus"></i>
@@ -38,7 +38,7 @@
          </div>
 
          <div class="item item-divider">
-            Interval between periods : {{gameParams.periods.interval | secondsFormat }}
+            Interval between periods : <input type="text" class="inline" number-to-time ng-model="gameParams.periods.interval"  />
          </div>
          <label class="item range range-positive">
             <i ng-click="gameParams.periods.interval = decreaseStep(gameParams.periods.interval,300)" class="icon ion-minus"></i>

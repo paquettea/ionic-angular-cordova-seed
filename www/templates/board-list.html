@@ -1,14 +1,14 @@
 
 <ion-view title="'Scoreboards'">
-   <ion-content has-header="true" has-tabs="true" padding="true">
+   <ion-content has-header="false" has-tabs="true" padding="false">
       <ion-list>
 
          <div class="list">
 
             <a ng-repeat="game in games" ui-sref="scoreboard.board({gameId:game.gameId})" class="item item-thumbnail-left">
-               <h2>{{ game.period.length }}</h2>
-               <h4>{{ game.sport }}</h4>
-               <small>{{ game.createdAt | date }}</small>
+               <small>{{ game.createdAt | date:'medium' }}</small>
+               <h2>{{ game.sport }} - {{game.teams[0].name}} VS {{game.teams[1].name}}</h2>
+               <h4>{{ game.periods.quantity }} Periods of {{ game.periods.length*10 | splitSecondsFormat }} with intervals of {{ game.periods.interval*10 | splitSecondsFormat }}</h4>
             </a>
 
          </div>

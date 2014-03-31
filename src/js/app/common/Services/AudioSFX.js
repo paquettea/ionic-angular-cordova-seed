@@ -18,7 +18,8 @@ angular.module("scoreboard.common").provider("AudioSFX",function(AudioSFXEvents)
             lastPlayedScore = null,
             SFX ={
                END_OF_PERIOD : "end-of-period/end-of-period.mp3",
-               SCORE : "score/Hockey NHL - Home Goal Air Horn.mp3"
+               SCORE : "score/Hockey NHL - Home Goal Air Horn.mp3",
+               END_OF_GAME : "end-of-game/end.mp3"
             };
 
 
@@ -55,6 +56,9 @@ angular.module("scoreboard.common").provider("AudioSFX",function(AudioSFXEvents)
             },
             endOfPeriod:function(game){
                play(SFX.END_OF_PERIOD,game.sport);
+            },
+            endOfGame:function(game){
+               play(SFX.END_OF_GAME,game.sport);
             },
             score:function(game){
 

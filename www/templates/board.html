@@ -1,12 +1,27 @@
 
 <ion-view title="'Scoreboard'">
    <ion-content has-header="false" has-tabs="false" padding="false" class="dark">
-      <audio-sfx></audio-sfx>
-      <count-down class="period-countdown" id="period-countdown" from="game.periods.length ">
-      </count-down>
-      <div class="scores" id="scores">
-         <div ng-repeat="team in game.teams" class="score-panel">
-            <score-panel team-name="team.name" score="team.score" style="color:{{ team.color }}"></score-panel>
+      <div class="state-{{state}}">
+         <audio-sfx></audio-sfx>
+         <count-down
+            class="period-countdown"
+            id="period-countdown"
+            from="countdownValue"
+            autostart="countdownAutostart"
+            ng-hide="hideCountdown">
+         </count-down>
+         <div class="period-indicator">
+            P: {{currentPeriod}}
+         </div>
+         <div class="scores" id="scores" ng-class="{'full-size':hideCountdown}">
+            <div ng-repeat="team in game.teams" class="score-panel">
+               <score-panel team-name="team.name" score="team.score" style="color:{{ team.color }}"></score-panel>
+            </div>
+         </div>
+         <div class="back-to-list">
+            <button ng-click="backToList()">
+               <i class="ion-ios7-arrow-back ion-icon"></i>
+            </button>
          </div>
       </div>
    </ion-content>

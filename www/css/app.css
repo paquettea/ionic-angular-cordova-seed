@@ -1,4 +1,55 @@
 @import "../../www/fonts/lcd-bold.css";
+@-moz-keyframes blinker {
+  0% {
+    opacity: 1.0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1.0;
+  }
+}
+@-webkit-keyframes blinker {
+  0% {
+    opacity: 1.0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1.0;
+  }
+}
+@keyframes blinker {
+  0% {
+    opacity: 1.0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1.0;
+  }
+}
 .period-countdown {
   color: #fff;
   text-align: center;
@@ -7,6 +58,14 @@
   white-space: nowrap;
   line-height: 1em;
   font-family: 'lcdbold';
+}
+.scores.full-size .score-panel-inner .score {
+  font-size: 100vmin;
+}
+@media screen and (orientation: portrait) {
+  .scores.full-size .score-panel-inner .score {
+    font-size: 84vmin;
+  }
 }
 .scores .score-panel {
   float: left;
@@ -25,8 +84,15 @@
     position: absolute;
   }
   .scores .score-panel-inner .score {
-    font-size: 38vh;
+    font-size: 58vmin;
   }
+}
+.period-indicator {
+  font-family: 'lcdbold';
+  position: absolute;
+  right: 0;
+  font-size: 10vmin;
+  color: #fff;
 }
 .score-panel-inner {
   font-family: 'lcdbold';
@@ -43,6 +109,7 @@
   width: 100%;
   font-size: 20vw;
   line-height: 1em;
+  text-shadow: 0px 0px 15px rgba(255, 255, 255, 0.7);
 }
 .score-panel-inner .button {
   position: absolute;
@@ -69,12 +136,19 @@
 .dark {
   background-color: #000;
 }
-.period-countdown.stopped {
-  color: #808080;
-  text-decoration: blink;
-}
-.period-countdown.running {
-  color: #fff;
+.period-countdown.stopped .count-down-inner {
+  -webkit-animation-name: blinker;
+  -webkit-animation-duration: 1.5s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-name: blinker;
+  -moz-animation-duration: 1.5s;
+  -moz-animation-timing-function: linear;
+  -moz-animation-iteration-count: infinite;
+  animation-name: blinker;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 .period-countdown.ended {
   color: darkred;
@@ -82,4 +156,35 @@
 .button-cancel-sfx {
   font-size: 3em;
   position: absolute;
+  z-index: 3;
+  right: 0;
+}
+.back-to-list button {
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-size: 2.5em;
+  opacity: 0.7;
+}
+input.inline {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1em;
+}
+.state-INTERVAL .period-countdown {
+  color: lime;
+}
+.blink {
+  -webkit-animation-name: blinker;
+  -webkit-animation-duration: 1.5s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-name: blinker;
+  -moz-animation-duration: 1.5s;
+  -moz-animation-timing-function: linear;
+  -moz-animation-iteration-count: infinite;
+  animation-name: blinker;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
