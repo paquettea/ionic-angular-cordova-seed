@@ -10,7 +10,7 @@
    <!-- Pets Tab -->
    <ion-tab title="new game" icon="icon ion-plus" href="#/scoreboard/new-game">
       <ion-nav-bar
-         type="bar-positive"
+         class="bar-positive"
          animation="nav-title-slide-ios7"
          back-button-type="button-icon button-clear"
          back-button-icon="ion-ios7-arrow-back"></ion-nav-bar>
@@ -19,7 +19,7 @@
 
 
    <!-- Adopt Tab -->
-   <ion-tab title="Games" icon="icon ion-checkmark" ui-sref="scoreboard.list" >
+   <ion-tab title="Games" icon="icon ion-clipboard " ui-sref="scoreboard.list" >
 
       <ion-nav-view name="game-tab"></ion-nav-view>
 
@@ -27,13 +27,18 @@
 
 
    <!-- About Tab -->
-   <ion-tab title="About" icon="icon ion-search" href="#/tab/about">
+   <ion-tab title="Settings" icon="icon ion-levels" ui-sref="scoreboard.settings">
       <ion-nav-bar
-         type="bar-positive"
+         class="bar-positive"
          animation="nav-title-slide-ios7"
          back-button-type="button-icon button-clear"
-         back-button-icon="ion-ios7-arrow-back"></ion-nav-bar>
-      <ion-nav-view name="about-tab"></ion-nav-view>
+         back-button-icon="ion-ios7-arrow-back">
+            <ion-nav-back-button class="button button-icon ion-chevron-left">
+
+               {{ getPreviousTitle() || 'Back' }}
+            </ion-nav-back-button>
+         </ion-nav-bar>
+      <ion-nav-view name="settings-tab"></ion-nav-view>
    </ion-tab>
 
 

@@ -1,0 +1,28 @@
+<ion-view title="'Session'">
+   <ion-content has-header="true" has-tabs="true" padding="true">
+      <h1>Remote</h1>
+
+      <h2>
+         Paired devices
+      </h2>
+      <div class="list">
+         <a class="item" ng-click="selectDevice(device)" ng-repeat="device in devices">
+            {{device.name}}
+         </a>
+      </div>
+
+      <h2>
+         Check for discoverable bluetooth devices.
+      </h2>
+      <button ng-click="scanBluetooth()">
+         Scan
+      </button>
+
+      <div class="list">
+         <a class="item" ng-click="selectDevice(device)" ng-repeat="device in scannedDevices">
+            {{device.name}}
+         </a>
+      </div>
+
+   </ion-content>
+</ion-view>

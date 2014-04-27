@@ -1,3 +1,4 @@
+
 angular.module('scoreboard')
    .config(function ($stateProvider, $urlRouterProvider,EnvironmentDetection,AudioSFXProvider) {
 
@@ -39,15 +40,6 @@ angular.module('scoreboard')
                }
             }
          })
-         .state('scoreboard.settings', {
-            url: '/scoreboard/settings',
-            views: {
-               'settings-tab': {
-                  templateUrl: 'templates/settings.html',
-                  controller: 'SettingsCtrl'
-               }
-            }
-         })
 
          .state('reset', {
             url: '/reset',
@@ -58,32 +50,59 @@ angular.module('scoreboard')
                }
             }
          })
-
-         .state('scoreboard.settings-session', {
-            url: '/settings/ui',
+        .state('scoreboard.settings',{
+            url: '/settings',
             views: {
-               'pets-tab': {
-                  templateUrl: 'templates/settings-session.html',
+              'settings-tab': {
+                  templateUrl: 'templates/settings/settings.html',
+                  controller:function(){
+                  }
+              }
+            }
+        })
+         .state('scoreboard.settings-session', {
+            url: '/settings-session',
+            views: {
+               'settings-tab': {
+                  templateUrl: 'templates/settings/session.html',
                   controller: 'SettingsSessionCtrl'
                }
             }
          })
+          .state('scoreboard.settings-remote',{
+              url: '/settings-remote',
+              views: {
+                  'settings-tab': {
+                      templateUrl: 'templates/settings/remote.html',
+                      controller: 'SettingsRemoteCtrl'
+                  }
+              }
+          })
          .state('scoreboard.settings-ui', {
-            url: '/settings/ui',
+            url: '/settings-ui',
             views: {
-               'pets-tab': {
-                  templateUrl: 'templates/settings-ui.html',
+               'settings-tab': {
+                  templateUrl: 'templates/settings/ui.html',
                   controller: 'SettingsUiCtrl'
                }
             }
          })
-
-
-         .state('tab.about', {
-            url: '/about',
+        .state('scoreboard.settings-sounds', {
+            url: '/settings-sounds',
             views: {
-               'about-tab': {
-                  templateUrl: 'templates/about.html'
+              'settings-tab': {
+                  templateUrl: 'templates/settings/sounds.html',
+                  controller: 'SettingsSoundsCtrl'
+              }
+            }
+        })
+
+
+         .state('scoreboard.settings-about', {
+            url: '/settings-about',
+            views: {
+               'settings-tab': {
+                  templateUrl: 'templates/settings/about.html'
                }
             }
          });

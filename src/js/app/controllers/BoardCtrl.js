@@ -71,8 +71,6 @@ angular.module("scoreboard").controller('BoardCtrl',
             }
             $scope.countdownAutostart = game.continuousCountdown;
          });
-
-
       }
 
       keepAwake();
