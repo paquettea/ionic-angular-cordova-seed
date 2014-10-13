@@ -29,6 +29,13 @@ angular.module("scoreboard").controller('SettingsRemoteCtrl',
            $scope.devices = devices;
         });
 
+        $scope.checkManaged = function(){
+            BluetoothRemote.isConnectionManaged($scope.deviceAddress).then(function(isManaged){
+                $log.log("MANAGED ?",isManaged);
+            },function (error){
+                $log.log("error ?",error);
+            });
+        };
         $scope.scanBluetooth = function(){
             $log.log("scanning...");
             BluetoothRemote.scan().then(function(devices){
@@ -41,6 +48,7 @@ angular.module("scoreboard").controller('SettingsRemoteCtrl',
         }
 
         $scope.selectDevice = function(device){
+            $scope.deviceAddress = device.address;
             BluetoothRemote.use(device.address).catch(function(error){
                 $log.error(error);
             });

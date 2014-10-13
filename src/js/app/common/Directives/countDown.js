@@ -30,6 +30,13 @@ angular.module("scoreboard.common").directive("countDown",function(){
          function start(){
             if ($scope.remainingTime <= 0){
                reset();
+
+            }
+
+            if ( $scope.remainingTime == $scope.from * 10 ){
+                $scope.$emit("countdown.start");
+            }else{
+                $scope.$emit("countdown.resume");
             }
 
             var countDown,
@@ -57,14 +64,16 @@ angular.module("scoreboard.common").directive("countDown",function(){
             },100);
 
             $element.addClass("running").removeClass("stopped");
-            $scope.$emit("countdown.start");
+
          }
 
 
          function stop(){
             $interval.cancel(timer);
+            $scope.$emit("countdown.stop");
             timer = null;
             $element.removeClass("running").addClass("stopped");
+
          }
 
          function end(){

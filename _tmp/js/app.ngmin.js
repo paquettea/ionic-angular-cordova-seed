@@ -166,6 +166,11 @@ angular.module('scoreboard', [
           if ($scope.remainingTime <= 0) {
             reset();
           }
+          if ($scope.remainingTime == $scope.from * 10) {
+            $scope.$emit('countdown.start');
+          } else {
+            $scope.$emit('countdown.resume');
+          }
           var countDown, start = null, countDownInitialValue = $scope.remainingTime;
           function step(timestamp) {
             if (start === null)
@@ -185,10 +190,10 @@ angular.module('scoreboard', [
             }
           }, 100);
           $element.addClass('running').removeClass('stopped');
-          $scope.$emit('countdown.start');
         }
         function stop() {
           $interval.cancel(timer);
+          $scope.$emit('countdown.stop');
           timer = null;
           $element.removeClass('running').addClass('stopped');
         }
@@ -301,8 +306,10 @@ angular.module('scoreboard.common').filter('splitSecondsFormat', function () {
         'EnvironmentDetection',
         function ($rootScope, $injector, EnvironmentDetection) {
           var AudioSFX, player = null, playing = null, prefixPath = '', lastPlayedScore = null, SFX = {
-              END_OF_PERIOD: 'end-of-period/end-of-period.mp3',
-              SCORE: 'score/Hockey NHL - Home Goal Air Horn.mp3',
+              START_OF_PERIOD: 'start-of-period/Hockey-NHL-Home-Goal-Air-Horn.mp3',
+              START_OF_GAME: 'start-of-game/NHL-Molson-Hockey-Night-in-Canada.mp3',
+              END_OF_PERIOD: 'end-of-period/end-period.mp3',
+              SCORE: 'score/goal.mp3',
               END_OF_GAME: 'end-of-game/end.mp3'
             };
           $injector.invoke([
@@ -332,6 +339,12 @@ angular.module('scoreboard.common').filter('splitSecondsFormat', function () {
             listenForSFX: function () {
             },
             playRandom: function () {
+            },
+            startOfGame: function (game) {
+              play(SFX.START_OF_GAME, game.sport);
+            },
+            startOfPeriod: function (game) {
+              play(SFX.START_OF_PERIOD, game.sport);
             },
             endOfPeriod: function (game) {
               play(SFX.END_OF_PERIOD, game.sport);
@@ -455,7 +468,9 @@ angular.module('scoreboard.common').filter('splitSecondsFormat', function () {
       //todo use provider to be able to configure this
       compatibleProfiles = [
         '0000110E',
-        '0000110f'
+        '0000110f',
+        '00001101',
+        '00001124'
       ];
     function isAvailable() {
       return typeof bluetooth !== 'undefined';
@@ -463,11 +478,11 @@ angular.module('scoreboard.common').filter('splitSecondsFormat', function () {
     function findCompatibleProfiles(uuids) {
       var matches = [];
       for (var i = 0; i < uuids.length; i++) {
-        if (compatibleProfiles.indexOf(uuids[i]) !== -1) {
+        if (compatibleProfiles.indexOf(uuids[i].split('-')[0]) !== -1) {
           matches.push(uuids[i]);
         }
       }
-      return matches;
+      return uuids;
     }
     return BluetoothRemote = {
       events: {
@@ -581,10 +596,11 @@ angular.module('scoreboard.common').filter('splitSecondsFormat', function () {
           }, {
             address: deviceAddress,
             uuid: uuid,
-            conn: 'Hax'
+            conn: 'Secure'
           });
         }
         if (isAvailable()) {
+          //todo should get uuids before and have a list of devices with grayed items when not matching the compatible profiles
           BluetoothRemote.pair(deviceAddress).then(function () {
             if (angular.isUndefined(uuid)) {
               bluetooth.getUuids(function (device) {
@@ -615,11 +631,23 @@ angular.module('scoreboard.common').filter('splitSecondsFormat', function () {
         }
         return serviceDefer.promise;
       },
+      isConnectionManaged: function (deviceAddress) {
+        var serviceDefer = $q.defer();
+        if (isAvailable()) {
+          bluetooth.isConnectionManaged(function (state) {
+            serviceDefer.resolve(state);
+          }, function (error) {
+            serviceDefer.reject(error);
+          });
+        }
+        return serviceDefer.promise;
+      },
       use: function (deviceAddress) {
         var serviceDefer = $q.defer();
         if (isAvailable()) {
           BluetoothRemote.connect(deviceAddress).then(function () {
             bluetooth.startConnectionManager(function (data) {
+              $log.log('data !', data);
               $rootScope.$broadcast(BluetoothRemote.events.DATA_RECEIVED, data);
               $rootScope.$apply();
             }, function (error) {
@@ -773,6 +801,23 @@ angular.module('scoreboard.api').factory('OfflineConnector', [
           AudioSFX.score($scope.game);
         }
       });
+      $scope.$on('countdown.start', function (event) {
+        debugger;
+        if ($scope.state === Sports[$scope.game.sport].STATES.PERIOD && $scope.currentPeriod === 1) {
+          console.log('Start of game sound');
+          AudioSFX.startOfGame($scope.game);
+        } else if ($scope.state === Sports[$scope.game.sport].STATES.PERIOD) {
+          console.log('Start of PERIOD sound');
+          AudioSFX.startOfPeriod($scope.game);
+        }
+      });
+      $scope.$on('countdown.end', function (event, element, score) {
+        if ($scope.game.currentPeriod === $scope.game.periods.quantity) {
+          AudioSFX.endOfGame($scope.game);
+        } else {
+          AudioSFX.endOfPeriod($scope.game);
+        }
+      });
       $scope.$on('countdown.end', function (event, element, score) {
         AudioSFX.endOfPeriod($scope.game);
       });
@@ -895,6 +940,13 @@ angular.module('scoreboard.api').factory('OfflineConnector', [
     BluetoothRemote.getPairedDevices().then(function (devices) {
       $scope.devices = devices;
     });
+    $scope.checkManaged = function () {
+      BluetoothRemote.isConnectionManaged($scope.deviceAddress).then(function (isManaged) {
+        $log.log('MANAGED ?', isManaged);
+      }, function (error) {
+        $log.log('error ?', error);
+      });
+    };
     $scope.scanBluetooth = function () {
       $log.log('scanning...');
       BluetoothRemote.scan().then(function (devices) {
@@ -905,6 +957,7 @@ angular.module('scoreboard.api').factory('OfflineConnector', [
       });
     };
     $scope.selectDevice = function (device) {
+      $scope.deviceAddress = device.address;
       BluetoothRemote.use(device.address).catch(function (error) {
         $log.error(error);
       });

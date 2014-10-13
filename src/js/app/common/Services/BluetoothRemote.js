@@ -18,7 +18,9 @@ angular.module("scoreboard.common").factory("BluetoothRemote",
             //todo use provider to be able to configure this
             compatibleProfiles = [
                 "0000110E", //RemoteControl
-                "0000110f" //RemoteControlController
+                "0000110f", //RemoteControlController
+                "00001101",//serial rfcomm
+                "00001124" //PS3 BD Remote HID
             ];
 
 
@@ -32,11 +34,11 @@ angular.module("scoreboard.common").factory("BluetoothRemote",
         function findCompatibleProfiles (uuids){
             var matches = [];
             for (var i = 0 ; i < uuids.length ; i++){
-                if (compatibleProfiles.indexOf(uuids[i]) !== -1){
+                if (compatibleProfiles.indexOf(uuids[i].split('-')[0]) !== -1){
                     matches.push(uuids[i])
                 }
             }
-            return matches;
+            return uuids;
         }
         return BluetoothRemote = {
             events : {
@@ -164,11 +166,12 @@ angular.module("scoreboard.common").factory("BluetoothRemote",
                    },{
                        address : deviceAddress,
                        uuid:uuid,
-                       conn:'Hax'
+                       conn:'Secure' //Insecure, Hax
                    });
                }
 
                if (isAvailable()){
+                  //todo should get uuids before and have a list of devices with grayed items when not matching the compatible profiles
                   BluetoothRemote.pair(deviceAddress).then(function(){
 
                     if (angular.isUndefined(uuid)){
@@ -203,12 +206,25 @@ angular.module("scoreboard.common").factory("BluetoothRemote",
                }
                return serviceDefer.promise
            },
+           isConnectionManaged : function (deviceAddress){
+               var serviceDefer = $q.defer();
+
+               if (isAvailable()){
+                   bluetooth.isConnectionManaged(function(state){
+                       serviceDefer.resolve(state)
+                   },function(error){
+                       serviceDefer.reject(error);
+                   });
+                }
+               return serviceDefer.promise;
+           },
            use : function (deviceAddress){
                var serviceDefer = $q.defer();
 
                if (isAvailable()){
                    BluetoothRemote.connect(deviceAddress).then(function(){
                        bluetooth.startConnectionManager(function(data){
+                               $log.log("data !", data);
                           $rootScope.$broadcast(BluetoothRemote.events.DATA_RECEIVED,data);
                           $rootScope.$apply();
                        },

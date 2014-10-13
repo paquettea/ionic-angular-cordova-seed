@@ -12,6 +12,7 @@
     "phantomjs": "~1.9.2-4"
   },
   "dependencies": {
-    "plugman": "~0.21.0"
+    "plugman": "~0.21.0",
+    "grunt-manifest": "~0.4.0"
   }
 }

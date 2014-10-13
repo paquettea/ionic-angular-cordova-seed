@@ -87,9 +87,35 @@ module.exports = function(grunt) {
                spawn: false
             }
          }
-      }
+      },
+       manifest: {
+           generate: {
+               options: {
+                   basePath: 'www/',
+
+                   network: ['http://*'],
+                   //fallback: ['/ /offline.html'],
+                   exclude: ['css/app.css'],
+                   preferOnline: true,
+                   verbose: true,
+                   timestamp: true,
+                   hash: true,
+                   master: ['index.html']
+               },
+               src: [
+                   'js/*',
+                   'css/*.css',
+                   'css/ionic.min.css',
+                   'css/vendors.css',
+                   'audio/**/*.mp3'
+               ],
+               dest: 'www/manifest.appcache'
+           }
+       }
 
    });
+
+   grunt.loadNpmTasks('grunt-manifest');
    grunt.loadNpmTasks('grunt-contrib-uglify');
    grunt.loadNpmTasks('grunt-contrib-less');
    grunt.loadNpmTasks('grunt-contrib-watch');
